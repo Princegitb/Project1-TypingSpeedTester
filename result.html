@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Typing Results</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container result">
+    <h1>🏆 Your Results 🏆</h1>
+    <p id="time"></p>
+    <p id="wpm"></p>
+    <p id="accuracy"></p>
+    <button onclick="window.location.href='index.html'">Try Again</button>
+  </div>
+
+  <script>
+    const timeTaken = localStorage.getItem("timeTaken");
+    const wordsTyped = localStorage.getItem("wordsTyped");
+    const accuracy = localStorage.getItem("accuracy");
+
+    const wpm = Math.round((wordsTyped / timeTaken) * 60);
+
+    document.getElementById("time").innerText = `⏱ Time Taken: ${timeTaken} seconds`;
+    document.getElementById("wpm").innerText = `⚡ Speed: ${wpm} WPM`;
+    document.getElementById("accuracy").innerText = `🎯 Accuracy: ${accuracy}%`;
+  </script>
+</body>
+</html>
+

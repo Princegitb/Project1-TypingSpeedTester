@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Typing Speed Tester</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>⚡ Typing Speed Tester ⚡</h1>
+    <p id="quote">The quick brown fox jumps over the lazy dog.</p>
+    
+    <textarea id="input" placeholder="Start typing here..."></textarea>
+    
+    <div class="info">
+      <span id="timer">Time: 0s</span>
+      <span id="chars">Characters: 0</span>
+    </div>
+
+    <button id="submitBtn">Finish Test</button>
+  </div>
+
+  <script>
+    const input = document.getElementById("input");
+    const timerDisplay = document.getElementById("timer");
+    const charsDisplay = document.getElementById("chars");
+    const submitBtn = document.getElementById("submitBtn");
+    const quote = document.getElementById("quote").innerText;
+
+    let startTime, interval, timeTaken = 0;
+
+    input.addEventListener("keydown", () => {
+      if (!startTime) {
+        startTime = new Date();
+        interval = setInterval(() => {
+          timeTaken = Math.floor((new Date() - startTime) / 1000);
+          timerDisplay.innerText = `Time: ${timeTaken}s`;
+        }, 1000);
+      }
+    });
+
+    input.addEventListener("input", () => {
+      charsDisplay.innerText = `Characters: ${input.value.length}`;
+    });
+
+    submitBtn.addEventListener("click", () => {
+      clearInterval(interval);
+
+      const typedText = input.value.trim();
+      const wordsTyped = typedText.split(/\s+/).length;
+      const accuracy = calculateAccuracy(quote, typedText);
+
+      localStorage.setItem("timeTaken", timeTaken);
+      localStorage.setItem("wordsTyped", wordsTyped);
+      localStorage.setItem("accuracy", accuracy);
+
+      window.location.href = "result.html";
+    });
+
+    function calculateAccuracy(expected, typed) {
+      const expectedWords = expected.split(/\s+/);
+      const typedWords = typed.split(/\s+/);
+
+      let correct = 0;
+      typedWords.forEach((word, i) => {
+        if (word === expectedWords[i]) correct++;
+      });
+
+      return Math.round((correct / expectedWords.length) * 100);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
